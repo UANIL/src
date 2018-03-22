@@ -347,13 +347,25 @@ def parse_string(listItem):
 
 		elif (character == ',' and (singleQuoteCount % 2) == 0):
 			if containsCommas == True:
-				bufferString = '"' + bufferString + '"'
-			strings.append(bufferString)
+				#bufferString = '"' + bufferString + '"'
+
+				tempString = '"'
+				for char in bufferString:
+					if char == ",":
+						strings.append(tempString)
+						tempString = ""
+					else:
+						tempString += char
+				tempString += '"'
+				strings.append(tempString)
+
+			else:
+				strings.append(bufferString)
 			bufferString = ""
 			containsCommas = False
 			singleQuoteCount = 0
 
-		elif character == ',' and prevChar != '':
+		elif character == ',' and prevChar:
 			if singleQuoteCount %2 != 0:
 				containsCommas = True
 			bufferString += character
@@ -453,18 +465,15 @@ def bitcoin_address(listItem):
 		bitcoin_addressWriter.writerow(descriptions['bitcoin_address'])
 
 	#print("FIXME bitcoin_address")
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
 
 	#write the correct column titles to the csv files
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['bitcoin_address']:
-		if (columns_include['bitcoin_address'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	bitcoin_addressWriter.writerow(row)
@@ -490,19 +499,16 @@ def Bitcoin_address_link(listItem):
 		bitcoin_address_linkWriter = csv.writer(open('bitcoin_address_link%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		bitcoin_address_linkWriter.writerow(descriptions['bitcoin_address_link'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
 	page = strings[0]
 	bitcoin_address = strings[1].strip("'")
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['bitcoin_address_link']:
-		if (columns_include['bitcoin_address_link'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	bitcoin_address_linkWriter.writerow(row)
@@ -529,7 +535,7 @@ def category(listItem): # - low priority
 		categoryWriter = csv.writer(open('category%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		categoryWriter.writerow(descriptions['category'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
 	id = strings[0]
 	name = strings[1]
 	is_auto = strings[2]
@@ -537,13 +543,10 @@ def category(listItem): # - low priority
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['category']:
-		if (columns_include['category'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	categoryWriter.writerow(row)
@@ -571,7 +574,7 @@ def category_link(listItem): # - low priority
 		category_link_linkWriter = csv.writer(open('category_link%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		category_linkWriter.writerow(descriptions['category_link'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
 	domain = strings[0]
 	category = strings[1]
 	is_confirmed = strings[2]
@@ -580,13 +583,10 @@ def category_link(listItem): # - low priority
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['category_link']:
-		if (columns_include['category_link'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	category_linkWriter.writerow(row)
@@ -616,7 +616,7 @@ def categorylink(listItem):
 		categorylink_linkWriter = csv.writer(open('categorylink%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		categorylinkWriter.writerow(descriptions['categorylink'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
 	id = strings[0]
 	domain = strings[1]
 	category = strings[2]
@@ -626,13 +626,10 @@ def categorylink(listItem):
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['categorylink']:
-		if (columns_include['categorylink'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	categorylinkWriter.writerow(row)
@@ -656,18 +653,15 @@ def clone_group(listItem):
 		clone_group_linkWriter = csv.writer(open('clone_group%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		clone_groupWriter.writerow(descriptions['clone_group'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
 	id = strings[0]
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['clone_group']:
-		if (columns_include['clone_group'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	clone_groupWriter.writerow(row)
@@ -701,7 +695,7 @@ def daily_stat(listItem):
 		daily_statWriter = csv.writer(open('daily_stat%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		daily_statWriter.writerow(descriptions['daily_stat'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
 	id = strings[0]
 	created_at = strings[1].strip("'")
 	unique_visitors = strings[2]
@@ -716,13 +710,10 @@ def daily_stat(listItem):
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['daily_stat']:
-		if (columns_include['daily_stat'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	daily_statWriter.writerow(row)
@@ -782,51 +773,60 @@ def domain(listItem):
 	#how to deal with a title that contains commas? 
 	#split by commas(,) unless a single quote is seen, then read until single quote followed by a comma
 	#single quote must be escaped (\') if it is to be used other than to end the string
+	for string in strings:
+		string.strip("'")
 
-	id = strings[0]
-	host = strings[1].strip("'")
-	port = strings[2]
-	ssl = strings[3]
-	is_up = strings[4]
-	created_at = strings[5].strip("'")
-	visited_at = strings[6].strip("'")
-	title = strings[7].strip("'")
-	last_alive = strings[8].strip("'")
-	is_crap = strings[9]
-	is_genuine = strings[10]
-	is_fake = strings[11]
-	ssh_fingerprint = strings[12]
-	is_subdomain = strings[13]
-	server = strings[14].strip("'")
-	powered_by = strings[15].strip("'")
-	dead_in_a_row = strings[16]
-	next_scheduled_check = strings[17].strip("'")
-	is_banned = strings[18]
-	portsscanned_at = strings[19].strip("'")
-	path_scanned_at = strings[20].strip("'")
-	useful_404_scanned_at = strings[21].strip("'")
-	useful_404 = strings[22]
-	useful_404_php = strings[23]
-	useful_404_dir = strings[24]
-	clone_group = strings[25]
-	new_clone_group = strings[26]
-	ban_exempt = strings[27]
-	manual_genuine = strings[28]
-	language = strings[29].strip("'")
-	description_json = strings[30]
-	description_json_at = strings[31].strip("'")
-	whatweb_at = strings[32].strip("'")
+
+	#id = strings[0]
+	#host = strings[1].strip("'")
+	#port = strings[2]
+	#ssl = strings[3]
+	#is_up = strings[4]
+	# created_at = strings[5].strip("'")
+	# visited_at = strings[6].strip("'")
+	# title = strings[7].strip("'")
+	# last_alive = strings[8].strip("'")
+	# is_crap = strings[9]
+	# is_genuine = strings[10]
+	# is_fake = strings[11]
+	# ssh_fingerprint = strings[12]
+	# is_subdomain = strings[13]
+	# server = strings[14].strip("'")
+	# powered_by = strings[15].strip("'")
+	# dead_in_a_row = strings[16]
+	# next_scheduled_check = strings[17].strip("'")
+	# is_banned = strings[18]
+	# portsscanned_at = strings[19].strip("'")
+	# path_scanned_at = strings[20].strip("'")
+	# useful_404_scanned_at = strings[21].strip("'")
+	# useful_404 = strings[22]
+	# useful_404_php = strings[23]
+	# useful_404_dir = strings[24]
+	# clone_group = strings[25]
+	# new_clone_group = strings[26]
+	# ban_exempt = strings[27]
+	# manual_genuine = strings[28]
+	# language = strings[29].strip("'")
+	# description_json = strings[30]
+	# description_json_at = strings[31].strip("'")
+	# whatweb_at = strings[32].strip("'")
 
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['domain']:
-		if (columns_include['domain'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	# i = 0
+	# for key in columns_include['domain']:
+		# if (columns_include['domain'][key] == 'y'):
+			# if(strings[i].startswith("'") and strings[i].endswith("'")):
+				# strings[i] = strings[i][1:-1]
+			# temp.append(strings[i])
+		# i += 1
+
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
+
 	row = (temp)
 
 	domainWriter.writerow(row)
@@ -851,19 +851,16 @@ def email(listItem): # - low priority
 		emailWriter = csv.writer(open('email%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		emailWriter.writerow(descriptions['email'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
 	id = strings[0]
 	address = strings[1]
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['email']:
-		if (columns_include['email'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	emailWriter.writerow(row)
@@ -888,19 +885,16 @@ def email_link(listItem):
 		email_linkWriter = csv.writer(open('email_link%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		email_linkWriter.writerow(descriptions['email_link'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
 	#id = strings[0]
 	#address = strings[1].strip("'")
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['email_link']:
-		if (columns_include['email_link'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 	email_linkWriter.writerow(row)
 	email_link_file.flush()
@@ -925,20 +919,18 @@ def headless_bot(listItem):
 		headless_botWriter = csv.writer(open('headless_bot%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		headless_botWriter.writerow(descriptions['headless_bot'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
+
 	uuid = strings[0].strip("'")
 	kind = strings[1].strip("'")
 	created_at = strings[2].strip("'")
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['headless_bot']:
-		if (columns_include['headless_bot'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	headless_botWriter.writerow(row)
@@ -965,7 +957,8 @@ def headlessbot(listItem): # - low priority
 		headlessbotWriter = csv.writer(open('headlessbot%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		headlessbotWriter.writerow(descriptions['headlessbot'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
+
 	id = strings[0]
 	uuid = strings[1]
 	kind = strings[2]
@@ -973,13 +966,10 @@ def headlessbot(listItem): # - low priority
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['headlessbot']:
-		if (columns_include['headlessbot'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	headlessbotWriter.writerow(row)
@@ -1005,20 +995,18 @@ def open_port(listItem):
 		open_portWriter = csv.writer(open('open_port%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		open_portWriter.writerow(descriptions['open_port'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
+
 	id = strings[0]
 	port = strings[1]
 	domain = strings[2]
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['open_port']:
-		if (columns_include['open_port'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	open_portWriter.writerow(row)
@@ -1053,7 +1041,8 @@ def page(listItem): # - HIGH PRIORITY
 		pageWriter = csv.writer(open('page%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		pageWriter.writerow(descriptions['page'])
 
-	strings = listItem.split(',') # separate the list items by commas
+	strings = parse_string(listItem) # separate the list items by commas
+
 	id = strings[0]
 	url = strings[1].strip("'")
 	title = strings[2].strip("'")
@@ -1068,13 +1057,10 @@ def page(listItem): # - HIGH PRIORITY
 	
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['page']:
-		if (columns_include['page'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	pageWriter.writerow(row)
@@ -1099,19 +1085,17 @@ def page_link(listItem):
 		page_linkWriter = csv.writer(open('page_link%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		page_linkWriter.writerow(descriptions['page_link'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
+
 	link_from = strings[0]
 	link_to = strings[1]
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['page_link']:
-		if (columns_include['page_link'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	page_linkWriter.writerow(row)
@@ -1143,7 +1127,8 @@ def request_log(listItem):
 		request_logWriter = csv.writer(open('request_log%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		request_logWriter.writerow(descriptions['request_log'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
+
 	id = strings[0]
 	uuid = strings[1]
 	uuid_is_fresh = strings[2]
@@ -1155,13 +1140,10 @@ def request_log(listItem):
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['request_log']:
-		if (columns_include['request_log'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	request_logWriter.writerow(row)
@@ -1193,7 +1175,7 @@ def search_log(listItem):
 		search_logWriter = csv.writer(open('search_log%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		search_logWriter.writerow(descriptions['search_log'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
 	#id = strings[0]
 	#uuid = strings[1]
 	#uuid_is_fresh = strings[2].strip("'")
@@ -1205,13 +1187,10 @@ def search_log(listItem):
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['search_log']:
-		if (columns_include['search_log'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	search_logWriter.writerow(row)
@@ -1236,19 +1215,17 @@ def ssh_fingerprint(listItem):
 		ssh_fingerprintWriter = csv.writer(open('ssh_fingerprint%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		ssh_fingerprintWriter.writerow(descriptions['ssh_fingerprint'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
+
 	id = strings[0]
 	fingerprint = strings[1].strip("'")
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['ssh_fingerprint']:
-		if (columns_include['ssh_fingerprint'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	ssh_fingerprintWriter.writerow(row)
@@ -1276,7 +1253,8 @@ def web_component(listItem):
 		web_componentWriter = csv.writer(open('web_component%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		web_componentWriter.writerow(descriptions['web_component'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
+
 	id = strings[0]
 	name = strings[1].strip("'")
 	version = strings[2].strip("'")
@@ -1285,13 +1263,10 @@ def web_component(listItem):
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['web_component']:
-		if (columns_include['web_component'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	web_componentWriter.writerow(row)
@@ -1316,19 +1291,17 @@ def web_component_link(listItem):
 		web_component_linkWriter = csv.writer(open('web_component_link%s.csv' % int(i), 'w', newline=''),delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
 		web_component_linkWriter.writerow(descriptions['web_component_link'])
 
-	strings = listItem.split(',')
+	strings = parse_string(listItem)
+	
 	web_component = strings[0]
 	domain = strings[1]
 
 	row = ()
 	temp = []
-	i = 0
-	for key in columns_include['web_component_link']:
-		if (columns_include['web_component_link'][key] == 'y'):
-			if(strings[i].startswith("'") and strings[i].endswith("'")):
-				strings[i] = strings[i][1:-1]
-			temp.append(strings[i])
-		i += 1
+	for string in strings:
+		if(string.startswith("'") and string.endswith("'")):
+			string = string[1:-1]
+		temp.append(string)
 	row = (temp)
 
 	web_component_linkWriter.writerow(row)
@@ -1472,10 +1445,11 @@ def read_text(Tables): # - HIGH PRIORITY
 
 		prevChar = ""
 
-
 		while True:
 			char = file.read(1)
 			if not char:
+				if tableName != "":
+					print("Final Table Entries Count: ", "{:,}".format(tableWordCount))	
 				return
 
 			bufferText += char
@@ -1490,8 +1464,9 @@ def read_text(Tables): # - HIGH PRIORITY
 				if temp in Tables:
 					if temp != tableName:
 						#print('yes.')
+						if tableName != "":
+							print("Final Table Entries Count: ", "{:,}".format(tableWordCount))	
 						tableName = temp
-						print("Final Table Entries Count: ", "{:,}".format(tableWordCount))
 						print("Current Table = " + tableName)
 						tableWordCount = 0
 			elif char == '`':
@@ -1676,6 +1651,6 @@ def run():
 		except:
 			print()
 			break
+	close_files()
 
 run()
-close_files()
