@@ -1,15 +1,18 @@
 import sqlite3
-#import re
 import io
 import csv
 import os.path
-####FIX: USE COMMA TO SEPARATE WORDS IN FILE INSTEAD OF STORING IN A SINGLE WORD####
-####FIX: WORK ON MAKING SURE YOU DON'T KEEP PRINTING THE SAMPE OUTPUT EACH TIME--Flush files after each line?####
-####Clear each row after each writerow
 
 #Author: Austin Rife
-#Date: 1/29/2018
-#Description: This program processes every word in an sql file and outputs any matches to the given keyword.
+#Email: Arife1@crimson.ua.edu
+#Date: 9 April 2018
+#Description: This program is dedicated to parsing tables within a specified .sql file. The program can
+			  #search for a specific keyword, list all Tables in the file, display a menu of options,
+			  #and run complete file parsing on the given file. The complete file parsing searches for
+			  #tables that are in the list hard-coded in and parses the information from those tables
+			  #into a csv file with that table name. All quotes and parenthesis are trimmed away. The
+			  #table should resemble an SQL table but in CSV form, this should enable simpler
+			  #access to the data for program automation.
 
 #max number of lines per file (max rows for an excel sheet is 1,048,576)
 #KEY GLOBAL PARAMETERS
