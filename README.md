@@ -1,5 +1,7 @@
 # Network Intrusion Lab Intern Repository
 
+In this repository you will find a variety tools and programs developed in conjunction with the University of Alabama's Joint Electronic Crimes Task Force and Network Intrusion Lab. Please direct all questions or concerns to the JECTF's academic coordinator, Dr. Diana Dolliver - DLDolliver@ua.edu.
+
 <h2> SQL_Parser.py </h2> - This program processes every word in an sql file and outputs any matches to the given keyword. Pipes necessary information into CSV file.
 
 </br>
