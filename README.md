@@ -7,34 +7,21 @@ In this repository you will find a variety tools and programs developed in conju
 
 - [Wireshark](https://www.wireshark.org/)
 
-<h2> SQL_Parser.py </h2> 
-
-Parser designed to sort through raw SQL statements/text and output matches based on selected keyword. Exports results to CSV file format.
-
-</br>
-</br>
+<h2> SQL_Parser.py </h2>
+This program is dedicated to parsing tables within a specified .sql file. The program can search for a specific keyword, list all tables in the file, display a menu of options, and run complete file parsing on the given file.
 
 <h2> URLParser.py </h2> 
 
-Parser designed to pull URLs from a Wireshark-exported CSV file.
-
-</br>
-</br>
+This program parses a csv file exported from wireshark to output all URLs in the file.
 
 <h2> csvparse.py </h2>
 
-Parser designed to organize URLs, frequency of visit, and access timestamps from Wireshark-exported CSV files.
-
-</br>
-</br>
+Gives all sites visited, number of visits for each site, and the sites access at each time stamp since collection
 
 <h2> dataFinder.py </h2> 
 
 Tool to determine a given table's format, find an example of the output, and work for a specific table or all table names.
 
-</br>
-</br>
-
-<h2> getHeaders.py </h2> 
+<h2> getHeaders.py </h2>
 
 Script designed to check HTTP Status Codes from CSV-stored URLs. Should those URLs exist based on the returned HTTP Status Code, it will return the header information and export results to a CSV file `header_info.csv`.
