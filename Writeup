@@ -1,0 +1,26 @@
+The SQL_Parser program offers multiple functions.
+	s - search for a keyword
+	  - parses all words in a file separated by a given delimiter
+	  - prints all words that contain the keyword to screen
+
+	l - 
+	  - list all tables hardcoded into the program 
+	  - these are all tables from the small (5.5GB) SQL data dump
+
+	m - displays the menu of options
+
+	r - runs complete file parsing
+	  - this prompts the user for a given file
+	  - also prompts the user for how often they want to be updated on the progress of the parsing
+	  - parses the given file according to all the hardcoded table formats --
+	  - these table formats are those existing in the small SQL data dump
+	  - each of these tables are then outputted to individual files named <tablename>.csv
+	  - each file only holds 1,000,000 lines, and additional entries go into numbered files
+	  - ex: after <tablename>.csv fills up, <tablename>1.csv is created, then <tablename>2.csv, etc.
+	  - if the file already exists, parsing will skip over that
+
+	q - quit the program
+
+NOTES FROM THE PARSED CSV FILES
+	- each file represents a different table from the given file
+	- not yet sure how the data between each table is connected
