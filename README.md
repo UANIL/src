@@ -1,5 +1,4 @@
-# Network Intrusion Lab Intern Repository
-![https://cybercrime.as.ua.edu/resources/jectf/](https://cybercrime.as.ua.edu/wp-content/uploads/2015/11/Logo-2-300x269.jpg)
+# Spring 2018 NIL Cohort Repo
 
 In this repository you will find a variety tools and programs developed in conjunction with the University of Alabama's [Joint Electronic Crimes Task Force](https://cybercrime.as.ua.edu/resources/jectf/) and Network Intrusion Lab by undergraduate student interns. Please direct all questions or concerns to the JECTF's academic coordinator, [Dr. Diana Dolliver](https://cj.ua.edu/profiles/diana-dolliver/) - DLDolliver@ua.edu.
 
